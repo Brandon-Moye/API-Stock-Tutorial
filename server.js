@@ -1,7 +1,14 @@
+
 const express = require('express')
 const cheerio = require('cheerio')
+const fetch = require('node-fetch')
+const routesIndex = require('./routes/index')
+// const { map } = require('cheerio/lib/api/traversing')
 const app = express()
 const port = 5353
+
+// VARIABLES
+const baseUrl = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`
 
 // MIDDLEWARE
 app.use(express.json())
@@ -12,16 +19,7 @@ app.get('/', (req, res) => {
   res.sendStatus(200).send({message: 'Thank you for trying our API'})  
 })
 
-app.get('/api/stock', (req, res) => {
-    /**
-     * you can retrieve info from network request from: query, parameter, body
-     * the body only exists with a post request
-     */
-    const { stock } = req.query
-    if (!stock) {
-        return res.sendStatus(403)
-    }
-})
+app.get('/api/stock', routesIndex.getStockPrices)
 
 app.post('/test', (req, res) => {
     const body = req.body
