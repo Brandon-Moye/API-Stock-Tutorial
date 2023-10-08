@@ -3,7 +3,10 @@ const baseUrl = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=$
 
 const { fetchPrice } = require("../utils")
 const fetch = require('node-fetch')
+async function getHome(req, res) {
+        res.sendStatus(200).send({message: 'Thank you for trying our API'})  
 
+}
 
 async function getStockPrices (req, res) {
     /**
@@ -29,4 +32,11 @@ async function getStockPrices (req, res) {
     }
 }
 
-module.exports = { getStockPrices }
+const postTest = (req, res) => {
+    const body = req.body
+    const { message } = body
+    console.log('THIS IS THE MESSAGE' + message)
+    res.sendStatus(200)
+}
+
+module.exports = { getStockPrices, getHome, postTest }
