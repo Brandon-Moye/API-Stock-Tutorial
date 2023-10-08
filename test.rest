@@ -1,0 +1,4 @@
+###
+
+# Setting up query via "?"
+GET http://localhost:5353/api/stock?stock=pypl
