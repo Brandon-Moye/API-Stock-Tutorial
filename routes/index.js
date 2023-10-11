@@ -35,7 +35,7 @@ async function getStockPrices (req, res) {
 const postTest = (req, res) => {
     const body = req.body
     const { message } = body
-    console.log('THIS IS THE MESSAGE' + message)
+    console.log('THIS IS THE MESSAGE ' + message)
     res.sendStatus(200)
 }
 

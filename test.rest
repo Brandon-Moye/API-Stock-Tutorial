@@ -2,3 +2,11 @@
 
 # Setting up query via "?"
 GET http://localhost:5353/api/stock?stock=pypl
+
+###
+POST http://localhost:5353/api/test
+Content-Type: application/json
+
+{
+    "message": "hello world"
+}
