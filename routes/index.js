@@ -1,15 +1,17 @@
-
 const baseUrl = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`
-
 const { fetchPrice } = require("../utils")
 const fetch = require('node-fetch')
+// const { append } = require("cheerio/lib/api/manipulation")
+
+// GETHOME FUNCTION
 async function getHome(req, res) {
         res.sendStatus(200).send({message: 'Thank you for trying our API'})  
 
 }
 
+// GETSTOCKPRICES FUNCTION
 async function getStockPrices (req, res) {
-    /**
+    /*
      * you can retrieve info from network request from: query, parameter, body
      * the body only exists with a post request
      */
@@ -21,7 +23,7 @@ async function getStockPrices (req, res) {
 
     try {
         const stockDataUrl = baseUrl(stock)
-        const stockRes = await fetch(stockDataUrl)
+        const stockRes = await fetch(stockDataUrl) //fetch HTML
         const data = await stockRes.text()
         const prices = fetchPrice(data)
         console.log(prices)
@@ -32,11 +34,28 @@ async function getStockPrices (req, res) {
     }
 }
 
+// POST FUNCTION
 const postTest = (req, res) => {
     const body = req.body
     const { message } = body
-    console.log('THIS IS THE MESSAGE ' + message)
+    console.log('THIS IS THE MESSAGE: ' + message)
     res.sendStatus(200)
 }
 
-module.exports = { getStockPrices, getHome, postTest }
+// GETPARAMS FUNCTION
+function getParamsTest(req, res) {
+    const { bananaKeywork } = req.params
+
+    console.log('THE KEYWORK IS: ' + bananaKeywork)
+    res.sendStatus(200)
+}
+
+// MIDDLEWARE INTERCEPTOR (for rate limiting or requiring an API key)
+function middleWareInterceptor(req, res, next) {
+    console.log('I AM THE MIDDLE MAN')
+    const { password } = req.query
+    if (password !== '1234') { return res.sendStatus(403)}
+    next()
+}
+
+module.exports = { getStockPrices, getHome, postTest, getParamsTest, middleWareInterceptor }
