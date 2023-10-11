@@ -1,31 +1,33 @@
 
-const express = require('express')
-const cheerio = require('cheerio')
+const express = require('express') //import server framework
 const fetch = require('node-fetch')
-const routesIndex = require('./routes/index')
+const { getStockPrices, postTest, getHome, getParamsTest, middleWareInterceptor } = require('./routes/index')
 // const { map } = require('cheerio/lib/api/traversing')
-const app = express()
-const port = 5353
+const app = express() //boot up of the server
+const port = 5353 // define port 
 
 // VARIABLES
 const baseUrl = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`
 
 // MIDDLEWARE
-app.use(express.json())
-app.use(require('cors')())
+app.use(express.json()) //allow project to retrieve JSON that may come in the form of a post request
+app.use(require('cors')()) //allow requests for cross origin request
 
 // ROUTES - analogus to API end points
-app.get('/', (req, res) => {
-  res.sendStatus(200).send({message: 'Thank you for trying our API'})  
-})
 
-app.get('/api/stock', routesIndex.getStockPrices)
+/* 
+in express, call the .get verb as a function and pass in 2 arguments
+1. the path 
+2. the fuction to the execute when the request hits that route 
+*/
+app.get('/', getHome) //return instructions to use API
 
-app.post('/test', (req, res) => {
-    const body = req.body
-    const { message } = body
-    console.log('THIS IS THE MESSAGE' + message)
-    res.sendStatus(200)
-})
+
+app.get('/api/stock', middleWareInterceptor ,getStockPrices)
+
+app.get('/api/testParams/:bananaKeywork', getParamsTest)
+
+app.post('/api/test', postTest)
+
 //listen to incoming requests at this port
-app.listen(port, () => console.log(`Server has started on port: ${port}`))
+app.listen(port, () => console.log(`Server has started on port: ${port}`)) 

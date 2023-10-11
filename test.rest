@@ -1,4 +1,15 @@
 ###
 
 # Setting up query via "?"
-GET http://localhost:5353/api/stock?stock=pypl
+GET http://localhost:5353/api/stock?stock=pypl&password=1234
+
+###
+POST http://localhost:5353/api/test
+Content-Type: application/json
+
+{
+    "message": "hello world"
+}
+
+###
+GET http://localhost:5353/api/testParams/dnynamicWord
